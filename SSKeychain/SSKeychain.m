@@ -27,11 +27,15 @@ NSString *const kSSKeychainWhereKey = @"svce";
 	return [self passwordForService:serviceName account:account error:nil];
 }
 
-
 + (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *)error {
+    return [self passwordForService:serviceName account:account accessGroup:nil error:error];
+}
+
++ (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account accessGroup:(NSString*)accessGroup error:(NSError *__autoreleasing *)error {
 	SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
 	query.service = serviceName;
 	query.account = account;
+    query.accessGroup = accessGroup;
 	[query fetch:error];
 	return query.password;
 }
@@ -43,10 +47,15 @@ NSString *const kSSKeychainWhereKey = @"svce";
 
 
 + (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *)error {
-	SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
-	query.service = serviceName;
-	query.account = account;
-	return [query deleteItem:error];
+    return [self deletePasswordForService:serviceName account:account accessGroup:nil error:error];
+}
+
++ (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account accessGroup:(NSString*)accessGroup error:(NSError *__autoreleasing *)error {
+    SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
+    query.service = serviceName;
+    query.account = account;
+    query.accessGroup = accessGroup;
+    return [query deleteItem:error];
 }
 
 
@@ -56,11 +65,16 @@ NSString *const kSSKeychainWhereKey = @"svce";
 
 
 + (BOOL)setPassword:(NSString *)password forService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *)error {
-	SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
-	query.service = serviceName;
-	query.account = account;
-	query.password = password;
-	return [query save:error];
+    return [self setPassword:password forService:serviceName account:account accessGroup:nil error:error];
+}
+
++ (BOOL)setPassword:(NSString *)password forService:(NSString *)serviceName account:(NSString *)account accessGroup:(NSString*)accessGroup error:(NSError *__autoreleasing *)error {
+    SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
+    query.service = serviceName;
+    query.account = account;
+    query.accessGroup = accessGroup;
+    query.password = password;
+    return [query save:error];
 }
 
 
