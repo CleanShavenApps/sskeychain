@@ -35,7 +35,9 @@ NSString *const kSSKeychainWhereKey = @"svce";
 	SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
 	query.service = serviceName;
 	query.account = account;
+#if TARGET_OS_IPHONE
     query.accessGroup = accessGroup;
+#endif
 	[query fetch:error];
 	return query.password;
 }
@@ -54,7 +56,9 @@ NSString *const kSSKeychainWhereKey = @"svce";
     SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
     query.service = serviceName;
     query.account = account;
+#if TARGET_OS_IPHONE
     query.accessGroup = accessGroup;
+#endif
     return [query deleteItem:error];
 }
 
@@ -72,7 +76,9 @@ NSString *const kSSKeychainWhereKey = @"svce";
     SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
     query.service = serviceName;
     query.account = account;
+#if TARGET_OS_IPHONE
     query.accessGroup = accessGroup;
+#endif
     query.password = password;
     return [query save:error];
 }
